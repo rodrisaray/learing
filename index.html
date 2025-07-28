@@ -11,7 +11,97 @@
   <link rel="canonical" href="https://rodrisaraydigital-marketing.pages.dev/index.html" />
    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<bodyclass="bg-white text-gray-800 font-sans">
+
+  <!-- 🔹 Header -->
+  <header class="bg-gray-900 text-white py-5">
+    <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold">Simple Digital Growth</h1>
+      <nav class="space-x-4 text-sm">
+        <a href="#blog" class="hover:text-yellow-400">Blog</a>
+        <a href="#about" class="hover:text-yellow-400">About</a>
+        <a href="#contact" class="hover:text-yellow-400">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 🔹 Hero Section / CTA -->
+  <section class="py-20 bg-gradient-to-br from-yellow-50 to-white text-center px-4">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-4xl font-bold mb-4">Grow with Simple Content</h2>
+      <p class="text-gray-600 text-lg mb-6">Real skills. Open tools. No sign-in. Powered by Blogger and social media to help youth grow in the digital age.</p>
+      <a href="#blog" class="bg-yellow-400 text-black font-semibold px-6 py-3 rounded-lg shadow hover:bg-yellow-500 transition">
+        Read Latest Posts
+      </a>
+    </div>
+  </section>
+
+  <!-- 🔹 Blog Section -->
+  <section id="blog" class="py-16 bg-white px-4">
+    <div class="max-w-6xl mx-auto text-center">
+      <h3 class="text-3xl font-bold mb-8">Latest Posts</h3>
+      <div id="blogFeed" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" role="list">
+        <!-- Blogger posts will load here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 🔹 About Section (Optional) -->
+  <section id="about" class="py-16 bg-gray-50 px-4">
+    <div class="max-w-3xl mx-auto text-center">
+      <h3 class="text-2xl font-bold mb-4">Why This Project?</h3>
+      <p class="text-gray-700">This landing page is built to open paths for young learners and creators. Using free tools like Blogger and Tailwind CSS, we enable easy content sharing and learning without barriers like logins or complex tech.</p>
+    </div>
+  </section>
+
+  <!-- 🔹 Contact / Subscribe -->
+  <section id="contact" class="py-16 bg-white px-4">
+    <div class="max-w-xl mx-auto text-center">
+      <h3 class="text-2xl font-semibold mb-4">Stay Connected</h3>
+      <p class="text-gray-600 mb-6">Subscribe for more updates, tips, and content. No spam — just clarity.</p>
+      <form class="flex flex-col sm:flex-row justify-center gap-4">
+        <input type="email" placeholder="Your email address" class="border px-4 py-3 rounded w-full sm:w-2/3" required>
+        <button type="submit" class="bg-yellow-400 text-black font-semibold px-6 py-3 rounded shadow hover:bg-yellow-500 transition">
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 🔹 Footer -->
+  <footer class="bg-gray-900 text-gray-300 text-center py-6 text-sm">
+    <p>&copy; 2025 Simple Digital Growth. Built with Blogger, Tailwind CSS & Cloudflare Pages.</p>
+  </footer>
+
+  <!-- 🔹 Blogger Feed Script -->
+  <script>
+    const blogFeed = document.getElementById("blogFeed");
+    const bloggerFeedUrl = "https://yourblogname.blogspot.com/feeds/posts/default?alt=json&max-results=3"; // 🔁 Replace with your Blogger blog URL
+
+    fetch(bloggerFeedUrl)
+      .then(res => res.json())
+      .then(data => {
+        const entries = data.feed.entry || [];
+        entries.forEach(entry => {
+          const title = entry.title.$t;
+          const link = entry.link.find(l => l.rel === 'alternate').href;
+          const published = new Date(entry.published.$t).toLocaleDateString();
+
+          const postHTML = `
+            <a href="${link}" target="_blank" rel="noopener noreferrer"
+              class="block p-6 bg-gray-50 rounded-lg shadow hover:shadow-lg transition">
+              <h4 class="text-lg font-semibold mb-2 text-gray-800">${title}</h4>
+              <p class="text-sm text-gray-500">${published}</p>
+            </a>
+          `;
+          blogFeed.innerHTML += postHTML;
+        });
+      })
+      .catch(err => {
+        blogFeed.innerHTML = "<p class='text-red-500'>Unable to load posts. Check your Blogger feed URL.</p>";
+        console.error("Blogger feed error:", err);
+      });
+  </script>
 
 <header>
   <div class="container">
