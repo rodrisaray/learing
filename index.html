@@ -67,6 +67,29 @@ Simple English helps everyone create high-quality, optimized content that is eas
   <p>&copy; 2025 Your Brand | Simple Language for All</p>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="js/main.js">const blogFeed = document.getElementById("blogFeed");
+  const bloggerFeedUrl = "https://yourblogname.blogspot.com/feeds/posts/default?alt=json&max-results=3";
+
+  fetch(bloggerFeedUrl)
+    .then(res => res.json())
+    .then(data => {
+      const entries = data.feed.entry || [];
+      entries.forEach(entry => {
+        const title = entry.title.$t;
+        const link = entry.link.find(l => l.rel === 'alternate').href;
+        const published = new Date(entry.published.$t).toLocaleDateString();
+
+        blogFeed.innerHTML += `
+          <a href="${link}" target="_blank" rel="noopener noreferrer"
+             class="block p-6 bg-gray-50 rounded-xl shadow hover:shadow-lg transition">
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">${title}</h3>
+            <p class="text-sm text-gray-500">${published}</p>
+          </a>
+        `;
+      });
+    })
+    .catch(err => {
+      blogFeed.innerHTML = "<p class='text-center text-red-500'>Unable to load posts.</p>";
+    });</script>
 </body>
 </html>
